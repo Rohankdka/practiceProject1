@@ -5,9 +5,11 @@ import Navbar from "./pages/Navbar";
 import RegistrationForm from "./pages/RegistrationForm";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import AuthState from "./context/auth/AuthState";
 
 const App = () => {
   return (
+    <AuthState>
     <BrowserRouter>
       <Navbar />
       <Routes>
@@ -17,6 +19,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
+    </AuthState>
   );
 };
 

@@ -1,7 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/auth/AuthContext";
 
 const Navbar = () => {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav className="bg-white shadow-lg">
       <div className="container mx-auto px-4">
@@ -19,25 +28,40 @@ const Navbar = () => {
             <Link to="/mypost" className="text-gray-700 hover:text-gray-900">
               My Post
             </Link>
-            <Link to="/profile" className="text-gray-700 hover:text-gray-900">
-              Profile
-            </Link>
+            {user.username && (
+              <Link to="/profile" className="text-gray-700 hover:text-gray-900">
+                Profile
+              </Link>
+            )}
           </div>
 
           {/* Secondary Navbar items */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="py-2 px-4 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
-            >
-              Log In
-            </Link>
-            <Link
-              to="/register"
-              className="py-2 px-4 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300"
-            >
-              Register
-            </Link>
+            {user.username ? (
+              <>
+                <button
+                  onClick={handleLogout}
+                  className="py-2 px-4 font-medium text-gray-500 rounded hover:bg-red-500 hover:text-white transition duration-300"
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="py-2 px-4 font-medium text-gray-500 rounded hover:bg-green-500 hover:text-white transition duration-300"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="py-2 px-4 font-medium text-gray-500 rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -73,21 +97,37 @@ const Navbar = () => {
         >
           My Post
         </Link>
-        <Link
-          to="/profile"
-          className="block py-2 px-4 text-sm hover:bg-gray-200"
-        >
-          Profile
-        </Link>
-        <Link to="/login" className="block py-2 px-4 text-sm hover:bg-gray-200">
-          Log In
-        </Link>
-        <Link
-          to="/register"
-          className="block py-2 px-4 text-sm hover:bg-gray-200"
-        >
-          Register
-        </Link>
+        {user.username && (
+          <Link
+            to="/profile"
+            className="block py-2 px-4 text-sm hover:bg-gray-200"
+          >
+            Profile
+          </Link>
+        )}
+        {user.username ? (
+          <button
+            onClick={handleLogout}
+            className="block w-full text-left py-2 px-4 text-sm text-gray-500 hover:bg-red-500 hover:text-white"
+          >
+            Log Out
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="block py-2 px-4 text-sm hover:bg-gray-200"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/register"
+              className="block py-2 px-4 text-sm hover:bg-gray-200"
+            >
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
