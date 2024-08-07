@@ -1,19 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import AuthContext from '../context/auth/AuthContext';
-import axios from 'axios'
+import React, { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/auth/AuthContext";
+import axios from "axios";
 const Home = () => {
   // /const {user} = useContext(AuthContext);
-  const[data,setdata]=useState([]);
-  const[flag,setFlag]=useState(0);
+  const [data, setdata] = useState([]);
+  const [flag, setFlag] = useState(0);
 
-  useEffect(()=>{
-    axios.get('http://localhost:5500/')
-    .then((res)=>{
-      setdata(res.data.result);
-    }).catch((err)=>{
-      console.log(err);  
-    })
-  },[flag])
+  useEffect(() => {
+    axios
+      .get("http://localhost:5500/")
+      .then((res) => {
+        setdata(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [flag]);
 
   return (
     <div className="container mx-auto px-4 py-8">
